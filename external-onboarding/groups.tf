@@ -75,8 +75,8 @@ resource "vault_kv_secret_v2" "hardcoded_secrets" {
 
   custom_metadata {
     data = {
-      owner_email = local.app_map[split("/", each.key)[0]].owner_email
-      description = local.app_map[split("/", each.key)[0]].description
+      owner_email = jsondecode(local.app_map[split("/", each.key)[0]]).owner_email
+      description = jsondecode(local.app_map[split("/", each.key)[0]]).description
     }
   }
 }
