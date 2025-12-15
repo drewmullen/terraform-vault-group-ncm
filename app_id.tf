@@ -6,7 +6,7 @@ resource "vault_identity_group" "group" {
 
 data "vault_policy_document" "app" {
   rule {
-    path         = "tfvp/${var.app_id}*"
+    path         = "tfvp/${var.app_id}/*"
     capabilities = ["create", "read", "update", "delete", "list"]
     description  = "allow all on secrets"
   }
@@ -16,3 +16,5 @@ resource "vault_policy" "app" {
   name   = var.app_id
   policy = data.vault_policy_document.app.hcl
 }
+
+# hardcode creating specific secrets for them that includes metadata
