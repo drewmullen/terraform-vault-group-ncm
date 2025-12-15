@@ -58,7 +58,7 @@ resource "vault_identity_group" "group" {
 }
 
 locals {
-  secrets_by_id = [ for appid, appvalue in local.app_map: [for secret in jsondecode(appvalue).kvv2 : "${appid}/${each}"] ]
+  secrets_by_id = [ for appid, appvalue in local.app_map: [for secret in jsondecode(appvalue).kvv2 : "${appid}/${secret}"] ]
 }
 
 resource "vault_kv_secret_v2" "hardcoded_secrets" {
