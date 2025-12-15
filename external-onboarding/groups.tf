@@ -66,8 +66,9 @@ resource "vault_kv_secret_v2" "hardcoded_secrets" {
 
   name                       = each.key
   mount                      = "tfvp"
-  data_json                  = ""
-
+  data_json                  = jsonencode({
+    "drew" = "test"
+  })
   lifecycle {
     ignore_changes = [ data_json ]
   }
