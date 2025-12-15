@@ -62,7 +62,7 @@ locals {
 }
 
 resource "vault_kv_secret_v2" "hardcoded_secrets" {
-  for_each = nonsensitive(local.secrets_by_id)
+  for_each = toset(nonsensitive(local.secrets_by_id))
 
   name                       = each.key
   mount                      = "tfvp"
