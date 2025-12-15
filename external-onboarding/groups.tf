@@ -27,7 +27,7 @@ data "vault_policy_document" "rw" {
   for_each = toset(local.id_names)
 
   dynamic rule {
-    for_each = local.app_map[each.key].kvv2
+    for_each = jsondecode(local.app_map[each.key]).kvv2
     #each.value.kvv2
     content {
       path         = "tfvp/data/${each.key}/${each.rule}"
