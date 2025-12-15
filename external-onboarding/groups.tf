@@ -28,9 +28,8 @@ data "vault_policy_document" "rw" {
 
   dynamic rule {
     for_each = jsondecode(local.app_map[each.key]).kvv2
-    #each.value.kvv2
     content {
-      path         = "tfvp/data/${each.key}/${each.rule}"
+      path         = "tfvp/data/${each.key}/${rule.value}"
       capabilities = ["create", "read", "update", "list"]
       description  = "allow CRUL on specific secrets"  
     }
