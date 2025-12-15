@@ -13,7 +13,7 @@ locals {
 }
 
 data "vault_policy_document" "ro" {
-  for_each = toset(local.id_names)
+  for_each = local.app_map
 
   rule {
     path         = "tfvp/data/${each.key}/*"
@@ -24,7 +24,7 @@ data "vault_policy_document" "ro" {
 
 # individual secret policies
 data "vault_policy_document" "rw" {
-  for_each = toset(local.app_map)
+  for_each = local.app_map
 
   dynamic rule {
     for_each = each.value.kvv2
