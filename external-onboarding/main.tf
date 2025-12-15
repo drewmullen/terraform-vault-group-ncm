@@ -34,5 +34,5 @@ resource "vault_policy" "app" {
   for_each = toset(local.id_names)
 
   name   = each.key
-  policy = data.vault_policy_document.app.hcl
+  policy = data.vault_policy_document.app[each.key].hcl
 }
