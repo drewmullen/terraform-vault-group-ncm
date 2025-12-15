@@ -36,7 +36,3 @@ resource "vault_policy" "app" {
   name   = each.key
   policy = data.vault_policy_document.app[each.key].hcl
 }
-
-provider "aws" {
-  region = "us-east-1"
-}
