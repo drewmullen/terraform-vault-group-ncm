@@ -58,11 +58,11 @@ resource "vault_identity_group" "group" {
 }
 
 locals {
-  secrets_by_id = [ for appid, appvalue in local.app_map: [for secret in jsondecode(appvalue).kvv2 : "${appid}/${secret}"] ]
+  secrets_by_id = [ for appid, appvalue in local.app_map: [for secret in jsondecode(appvalue).kvv2 : "${appid}/${each}"] ]
 }
 
 resource "vault_kv_secret_v2" "hardcoded_secrets" {
-  for_each = toset(local.secrets_by_id)
+  for_each = nonsensitive(toset(local.secrets_by_id))
 
   name                       = each.key
   mount                      = "tfvp"
