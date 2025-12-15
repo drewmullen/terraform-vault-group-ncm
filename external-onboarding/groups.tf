@@ -62,7 +62,7 @@ locals {
 }
 
 resource "vault_kv_secret_v2" "hardcoded_secrets" {
-  for_each = toset(nonsensitive(local.secrets_by_id))
+  for_each = nonsensitive(local.secrets_by_id)
 
   name                       = each.key
   mount                      = "tfvp"
@@ -78,6 +78,5 @@ resource "vault_kv_secret_v2" "hardcoded_secrets" {
       owner_email = local.app_map[split("/", each.key)[0]].owner_email
       description = local.app_map[split("/", each.key)[0]].description
     }
-    
   }
 }
