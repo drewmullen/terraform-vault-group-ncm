@@ -37,7 +37,7 @@ data "vault_policy_document" "rw" {
 }
 
 locals {
-  policies = { for k,v in local.local.id_names: k => "${data.vault_policy_document.ro[k].hcl}\n${data.vault_policy_document.rw[k].hcl}}" }
+  policies = { for k,v in local.id_names: k => "${data.vault_policy_document.ro[k].hcl}\n${data.vault_policy_document.rw[k].hcl}}" }
 }
 
 resource "vault_policy" "app" {
