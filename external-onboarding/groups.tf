@@ -54,6 +54,29 @@ resource "vault_identity_group" "group" {
   type     = "internal"
   policies = [
     vault_policy.app[each.key].name
-    
   ]
+}
+
+locals {
+  secrets_by_id = [ for k,v in local.app_map: "${k}/${jsondecode(v).kvv2}" ]
+}
+
+resource "vault_kv_secret_v2" "hardcoded_secrets" {
+  for_each = toset(local.secrets_by_id)
+
+  name                       = each.key
+  mount                      = "tfvp"
+  data_json                  = jsonencode("{}")
+
+  lifecycle {
+    ignore_changes = [ data_json ]
+  }
+
+  custom_metadata {
+    data = {
+      owner_email = local.app_map[split("/", each.key)[0]].owner_email
+      description = local.app_map[split("/", each.key)[0]].description
+    }
+    
+  }
 }
